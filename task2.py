@@ -1,18 +1,15 @@
+import re
+from typing import Callable, Generator
 
+def generator_numbers(text: str) -> Generator[float, None, None]:
+    pattern = r'\b\d+\.\d+\b'
+    matches = re.findall(pattern, text)
+    for match in matches:
+        yield float(match)
 
-# This is a sample Python script.
+def sum_profit(text: str, func: Callable[[str], Generator[float, None, None]]) -> float:
+    return sum(func(text))
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+text = "Загальний дохід працівника складається з декількох частин: 1000.01 як основний дохід, доповнений додатковими надходженнями 27.45 і 324.00 доларів."
+total_income = sum_profit(text, generator_numbers)
+print(f"Загальний дохід: {total_income}")
